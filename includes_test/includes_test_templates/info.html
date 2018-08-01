@@ -2,7 +2,7 @@
 {% load staticfiles %}
 
 {% block page_title %}
-cbp info
+just-internal
 {% endblock page_title %}
 
 
@@ -57,48 +57,16 @@ cbp info
 
 {% block content %}
 
-<h1>code-best-practices &mdash; info</h1>
+<h1>includes test &mdash; just-internal</h1>
 
 <div id="info_text">
 
     <p>
-        This webapp supports localized code-best-practices checks. Its primary functions:
+        This page simply displays a template that extends the base template.
     </p>
-    <ul>
-        <li>
-            <p>It serves out a dynamically-updated score-badge which can be embedded in a version-control readme page (or elsewhere).</p>
-        </li>
-        <li>
-            <p>It provides public and authorized-user views of the underlying data that produces the badge score.</p>
-        </li>
-        <li>
-            <p>It enables automated reminder to-do emails to project owners.</p>
-        </li>
-        <li>
-            <p>It provides a lightweight admin for authorized-users to edit an existing project&rsquo;s best-practices checklist or create a new-project checklist.</p>
-        </li>
-    </ul>
-    <p>For more information, please see the project's <a href="https://github.com/birkin/bul_cbp_project/blob/master/README.md">README</a> file.</p>
-    <hr/>
-    <p>BUL developers, <a href="{{ login_url }}">log-in</a> to see additional info, and use the <a href="{{ admin_url }}">admin</a> to create or update project-entries.</p>
+
     <hr/>
 
 </div>  <!-- end <div id="info_text"> -->
-
-<div id="projects_div">
-    <h2>projects... <span id=#badge_note>(click badge for project-info)</span></h2>
-    <table id="projects" class="sortable">
-        <tr>
-            <th id="project">project</th><th id="contact">contact</th>
-        </tr>
-        {% for project in projects %}
-        <tr>
-            <td class="project">{{ project.name }}</td><td class="contact">{{ project.contact }}</td>
-            <td class="badge_cell"><a href="{{ project.project_info_link }}"><img alt="{{ project.slug }} badge-image-link" src="{{ project.project_image_link }}" /></a></td>
-        </tr>
-        {% endfor %}
-    </table>
-</div>  <!-- end <div id="projects_div"> -->
-
 
 {% endblock content %}
