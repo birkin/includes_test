@@ -1,0 +1,72 @@
+{% extends "includes_test_templates/base.html" %}
+{% load staticfiles %}
+
+{% block page_title %}
+just-internal
+{% endblock page_title %}
+
+
+{% block extra_css %}
+<script src="{% static 'js/sorttable.js' %}"></script>
+<style type="text/css">
+    div#info_text {
+        margin-top: 2em;
+    }
+    pre#info {
+        margin:0 auto;
+        width: 80%;
+    }
+
+    /* table css start */
+    div#projects_div h2 {
+        margin-top: .75em;
+        margin-bottom: .75em;
+    }
+    div#projects_div h2 span {
+        font-size: small;
+        margin-left: 1em;
+    }
+    table.sortable thead {
+        background-color:#eee;
+        color:#666666;
+        font-weight: bold;
+        cursor: default;
+    }
+    table#projects th#project {
+        padding-left: .25em;
+    }
+    table#projects th#contact {
+        padding-left: 2em;
+    }
+    table#projects {
+        line-height: 2em;
+    }
+    table#projects td.project {
+        padding-left: .25em;
+    }
+    table#projects td.contact {
+        padding-left: 2em;
+    }
+    table#projects td.badge_cell {
+        padding-left: 2em;
+    }
+    /* table css stop */
+</style>
+{% endblock extra_css %}
+
+
+{% block content %}
+
+<h1>includes test &mdash; external</h1>
+
+<div id="info_text">
+
+    <p>
+        This page will display a template that includes external html.
+    </p>
+
+    <hr/>
+
+</div>  <!-- end <div id="info_text"> -->
+
+{% endblock content %}

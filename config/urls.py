@@ -17,6 +17,8 @@ urlpatterns = [
 
     url( r'^just_internal/$', views.just_internal, name='internal_url' ),
 
+    url( r'^external_include/$', views.external, name='external_url' ),
+
     url( r'^bul_search/$', views.bul_search, name='bul_search_url' ),
 
     url( r'^$', RedirectView.as_view(pattern_name='info_url') ),

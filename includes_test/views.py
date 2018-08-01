@@ -35,6 +35,13 @@ def just_internal( request ):
     return resp
 
 
+def external( request ):
+    """ Returns minimal view from base and extended template. """
+    context = { 'foo': 'bar' }
+    resp = render( request, 'includes_test_templates/external_extender.html', context )
+    return resp
+
+
 def bul_search( request ):
     """ Triggered by user entering search term into banner-search-field.
         Redirects query to search.library.brown.edu """
