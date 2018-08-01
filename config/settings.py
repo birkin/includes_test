@@ -43,7 +43,7 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
     # 'django.contrib.sessions',
     'django.contrib.messages',
-    # 'django.contrib.staticfiles',
+    'django.contrib.staticfiles',
     'includes_test',
 ]
 
@@ -121,8 +121,8 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.11/howto/static-files/
 
-# STATIC_URL = os.environ['INC_TEST__STATIC_URL']
-# STATIC_ROOT = os.environ['INC_TEST__STATIC_ROOT']  # needed for collectstatic command
+STATIC_URL = os.environ['INC_TEST__STATIC_URL']
+STATIC_ROOT = os.environ['INC_TEST__STATIC_ROOT']  # needed for collectstatic command
 
 
 # Email
