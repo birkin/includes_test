@@ -31,7 +31,7 @@ def info( request ):
 def just_internal( request ):
     """ Returns minimal view from base and extended template. """
     context = { 'foo': 'bar' }
-    resp = render( request, 'includes_test_templates/info.html', context )
+    resp = render( request, 'includes_test_templates/internal_extender.html', context )
     return resp
 
 
