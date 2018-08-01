@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'app_x',
+    'includes_test',
 ]
 
 MIDDLEWARE = [
@@ -166,7 +166,7 @@ LOGGING = {
         },
     },
     'loggers': {
-        'app_x': {
+        'includes_test': {
             'handlers': ['logfile', 'console'],
             'level': os.environ.get(u'DJANGO_TEMPLATE__LOG_LEVEL'),
             'propagate': False
