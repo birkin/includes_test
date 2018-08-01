@@ -37,7 +37,7 @@ def just_internal( request ):
 
 def external( request ):
     """ Returns minimal view from base and extended template. """
-    context = { 'foo': 'bar' }
+    context = { 'MAIN_INCLUDE_URL': settings_app.MAIN_INCLUDED_URL }
     resp = render( request, 'includes_test_templates/external_extender.html', context )
     return resp
 
