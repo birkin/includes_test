@@ -1,14 +1,104 @@
 {% extends "includes_test_templates/base.html" %}
+{% load staticfiles %}
 
 {% block page_title %}
-info
+cbp info
 {% endblock page_title %}
+
+
+{% block extra_css %}
+<script src="{% static 'js/sorttable.js' %}"></script>
+<style type="text/css">
+    div#info_text {
+        margin-top: 2em;
+    }
+    pre#info {
+        margin:0 auto;
+        width: 80%;
+    }
+
+    /* table css start */
+    div#projects_div h2 {
+        margin-top: .75em;
+        margin-bottom: .75em;
+    }
+    div#projects_div h2 span {
+        font-size: small;
+        margin-left: 1em;
+    }
+    table.sortable thead {
+        background-color:#eee;
+        color:#666666;
+        font-weight: bold;
+        cursor: default;
+    }
+    table#projects th#project {
+        padding-left: .25em;
+    }
+    table#projects th#contact {
+        padding-left: 2em;
+    }
+    table#projects {
+        line-height: 2em;
+    }
+    table#projects td.project {
+        padding-left: .25em;
+    }
+    table#projects td.contact {
+        padding-left: 2em;
+    }
+    table#projects td.badge_cell {
+        padding-left: 2em;
+    }
+    /* table css stop */
+</style>
+{% endblock extra_css %}
 
 
 {% block content %}
 
-<h1>info (under construction)</h1>
+<h1>code-best-practices &mdash; info</h1>
 
-<hr/>
+<div id="info_text">
+
+    <p>
+        This webapp supports localized code-best-practices checks. Its primary functions:
+    </p>
+    <ul>
+        <li>
+            <p>It serves out a dynamically-updated score-badge which can be embedded in a version-control readme page (or elsewhere).</p>
+        </li>
+        <li>
+            <p>It provides public and authorized-user views of the underlying data that produces the badge score.</p>
+        </li>
+        <li>
+            <p>It enables automated reminder to-do emails to project owners.</p>
+        </li>
+        <li>
+            <p>It provides a lightweight admin for authorized-users to edit an existing project&rsquo;s best-practices checklist or create a new-project checklist.</p>
+        </li>
+    </ul>
+    <p>For more information, please see the project's <a href="https://github.com/birkin/bul_cbp_project/blob/master/README.md">README</a> file.</p>
+    <hr/>
+    <p>BUL developers, <a href="{{ login_url }}">log-in</a> to see additional info, and use the <a href="{{ admin_url }}">admin</a> to create or update project-entries.</p>
+    <hr/>
+
+</div>  <!-- end <div id="info_text"> -->
+
+<div id="projects_div">
+    <h2>projects... <span id=#badge_note>(click badge for project-info)</span></h2>
+    <table id="projects" class="sortable">
+        <tr>
+            <th id="project">project</th><th id="contact">contact</th>
+        </tr>
+        {% for project in projects %}
+        <tr>
+            <td class="project">{{ project.name }}</td><td class="contact">{{ project.contact }}</td>
+            <td class="badge_cell"><a href="{{ project.project_info_link }}"><img alt="{{ project.slug }} badge-image-link" src="{{ project.project_image_link }}" /></a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</div>  <!-- end <div id="projects_div"> -->
+
 
 {% endblock content %}
