@@ -14,8 +14,9 @@ log = logging.getLogger(__name__)
 def info( request ):
     """ Returns basic info.
         Getting this running shows that logging is working, and that the settings_app file is properly reading env-vars. """
-    log.debug( 'request.__dict__, ```%s```' % pprint.pformat(request.__dict__) )
+    # log.debug( 'request.__dict__, ```%s```' % pprint.pformat(request.__dict__) )
     start = datetime.datetime.now()
+    log.debug( 'start, `%s`' % str(start) )
     rtrn_dct = {
         'query': {
             'date_time': str( start ),
@@ -25,3 +26,10 @@ def info( request ):
             'elapsed_time': str( datetime.datetime.now() - start ),
             'message': 'ok' } }
     return HttpResponse( json.dumps(rtrn_dct, sort_keys=True, indent=2), content_type='application/javascript; charset=utf-8' )
+
+
+def just_internal( request ):
+    """ Returns minimal view from base and extended template. """
+    context = { 'foo': 'bar' }
+    resp = render( request, 'includes_test_templates/info.html', context )
+    return resp

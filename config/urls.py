@@ -15,6 +15,8 @@ urlpatterns = [
 
     url( r'^info/$', views.info, name='info_url' ),
 
+    url( r'^just_internal/$', views.just_internal, name='internal_url' ),
+
     url( r'^$', RedirectView.as_view(pattern_name='info_url') ),
 
     ]
