@@ -3,4 +3,4 @@
 import json, os
 
 
-README_URL = os.environ['APP_X__README_URL']
+README_URL = os.environ['INC_TEST__README_URL']
