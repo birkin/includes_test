@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import datetime, json, logging, os, pprint
+import requests
 from . import settings_app
 from django.conf import settings as project_settings
 from django.contrib.auth import logout
@@ -27,6 +28,19 @@ def info( request ):
             'message': 'ok' } }
     return HttpResponse( json.dumps(rtrn_dct, sort_keys=True, indent=2), content_type='application/javascript; charset=utf-8' )
 
+
+def proxy( request, slug=None ):
+    log.debug( 'slug, `%s`' % slug )
+    fetch_url = 'http://127.0.0.1/~birkin/dev/iip/iip_wordlists_stuff/iip-word-lists/docs/'
+    rewrite_url = 'http://127.0.1:8000/proxy'
+    if slug:
+        fetch_url = '%s%s' % ( fetch_url, slug )
+    r = requests.get( fetch_url )
+    raw = r.content.decode( 'utf-8' )
+    log.debug( 'raw, ```%s```' % raw )
+    rewritten = raw.replace( 'href="../', 'href="%s/' % rewrite_url )
+    log.debug( 'rewritten, ```%s```' % rewritten )
+    return HttpResponse( rewritten )
 
 def just_internal( request ):
     """ Returns minimal view from base and extended template. """

@@ -19,6 +19,9 @@ urlpatterns = [
 
     url( r'^external_include/$', views.external, name='external_url' ),
 
+    url( r'^proxy/$', views.proxy, name='proxy_url' ),
+    url( r'^proxy/(?P<slug>.*)/$', views.proxy, name='proxy_url' ),
+
     url( r'^bul_search/$', views.bul_search, name='bul_search_url' ),
 
     url( r'^$', RedirectView.as_view(pattern_name='info_url') ),
