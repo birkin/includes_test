@@ -31,14 +31,26 @@ def info( request ):
 
 def proxy( request, slug=None ):
     log.debug( 'slug, `%s`' % slug )
+    gets = request.GET
+    log.debug( 'gets, `%s`' % gets )
     fetch_url = 'http://127.0.0.1/~birkin/dev/iip/iip_wordlists_stuff/iip-word-lists/docs/'
     rewrite_url = 'http://127.0.1:8000/proxy'
+    js_rewrite_url = 'http://127.0.0.1/~birkin/dev/iip/iip_wordlists_stuff/iip-word-lists/docs/doubletreejs/'
     if slug:
         fetch_url = '%s%s' % ( fetch_url, slug )
-    r = requests.get( fetch_url )
+    if gets:
+        r = requests.get( fetch_url, params=gets )
+    else:
+        r = requests.get( fetch_url )
+    log.debug( 'r.url, ```%s```' % r.url )
     raw = r.content.decode( 'utf-8' )
     log.debug( 'raw, ```%s```' % raw )
-    rewritten = raw.replace( 'href="../', 'href="%s/' % rewrite_url )
+    # rewritten = raw.replace( 'href="../', 'href="%s/' % rewrite_url )
+    rewritten = raw.replace(
+        'href="../', 'href="%s/' % rewrite_url ).replace(
+        '<script src="doubletreejs/', '<script src="%s' % js_rewrite_url ).replace(
+        'textRequest.open("GET", "doubletree-data.txt"', 'textRequest.open("GET", "%sdoubletree-data.txt"' % fetch_url
+        )
     log.debug( 'rewritten, ```%s```' % rewritten )
     return HttpResponse( rewritten )
 
