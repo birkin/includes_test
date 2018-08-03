@@ -20,6 +20,7 @@ urlpatterns = [
     url( r'^external_include/$', views.external, name='external_url' ),
 
     url( r'^proxy/$', views.proxy, name='proxy_url' ),
+    url( r'^proxy/doubletree-data.txt/$', views.proxy_doubletree, name='proxy_doubletree_url' ),
     url( r'^proxy/(?P<slug>.*)/$', views.proxy, name='proxy_url' ),
 
     url( r'^bul_search/$', views.bul_search, name='bul_search_url' ),

@@ -17,7 +17,7 @@ def info( request ):
         Getting this running shows that logging is working, and that the settings_app file is properly reading env-vars. """
     # log.debug( 'request.__dict__, ```%s```' % pprint.pformat(request.__dict__) )
     start = datetime.datetime.now()
-    log.debug( 'start, `%s`' % str(start) )
+    log.info( 'start, `%s`' % str(start) )
     rtrn_dct = {
         'query': {
             'date_time': str( start ),
@@ -31,6 +31,7 @@ def info( request ):
 
 def proxy( request, slug=None ):
     log.debug( 'slug, `%s`' % slug )
+    log.debug( 'request.__dict__, ```%s```' % pprint.pformat(request.__dict__) )
     gets = request.GET
     log.debug( 'gets, `%s`' % gets )
     fetch_url = 'http://127.0.0.1/~birkin/dev/iip/iip_wordlists_stuff/iip-word-lists/docs/'
@@ -49,10 +50,20 @@ def proxy( request, slug=None ):
     rewritten = raw.replace(
         'href="../', 'href="%s/' % rewrite_url ).replace(
         '<script src="doubletreejs/', '<script src="%s' % js_rewrite_url ).replace(
-        'textRequest.open("GET", "doubletree-data.txt"', 'textRequest.open("GET", "%sdoubletree-data.txt"' % fetch_url
+        'textRequest.open("GET", "doubletree-data.txt"', 'textRequest.open("GET", "%s/doubletree-data.txt"' % rewrite_url
         )
     log.debug( 'rewritten, ```%s```' % rewritten )
-    return HttpResponse( rewritten )
+    if request.META['PATH_INFO'][-5:] == '.xml/':
+        resp = HttpResponse( rewritten, content_type='application/xml; charset=utf-8' )
+    else:
+        resp = HttpResponse( rewritten )
+    return resp
+
+def proxy_doubletree( request ):
+    log.debug( 'starting' )
+    url = 'http://127.0.0.1/~birkin/dev/iip/iip_wordlists_stuff/iip-word-lists/docs/doubletree-data.txt'
+    r = requests.get( url )
+    return HttpResponse( r.content )
 
 def just_internal( request ):
     """ Returns minimal view from base and extended template. """

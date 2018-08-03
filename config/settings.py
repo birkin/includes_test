@@ -168,7 +168,7 @@ LOGGING = {
         },
     },
     'loggers': {
-        'includes_test': {
+        'includes_test_app': {
             'handlers': ['logfile', 'console'],
             'level': os.environ.get(u'INC_TEST__LOG_LEVEL'),
             'propagate': False
