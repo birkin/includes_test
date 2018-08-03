@@ -3,7 +3,7 @@
 from django.conf.urls import include, url
 from django.contrib import admin
 from django.views.generic import RedirectView
-from includes_test import views
+from includes_test_app import views
 
 
 admin.autodiscover()
