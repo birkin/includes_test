@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 import datetime, json, logging, os, pprint
+import urllib.parse
 import requests
 from . import settings_app
 from django.conf import settings as project_settings
@@ -38,7 +39,7 @@ def proxy( request, slug=None ):
     proxy_url = reverse( 'proxy_url' )  # includes trailing slash
     js_rewrite_url = '%s%s' % ( fetch_url, 'doubletreejs/' )
     if slug:
-        fetch_url = '%s%s' % ( fetch_url, slug )
+        fetch_url = '%s%s' % ( fetch_url, urllib.parse.unquote_plus(slug) )
     if gets:
         r = requests.get( fetch_url, params=gets )
     else:
