@@ -34,11 +34,9 @@ def proxy( request, slug=None ):
     log.debug( 'request.__dict__, ```%s```' % pprint.pformat(request.__dict__) )
     gets = request.GET
     log.debug( 'gets, `%s`' % gets )
-    # fetch_url = 'http://127.0.0.1/~birkin/dev/iip/iip_wordlists_stuff/iip-word-lists/docs/'
-    fetch_url = settings_app.FETCH_DIR_URL
-    log.debug( 'reversed proxy-url, `%s`' % reverse('proxy_url') )
-    rewrite_url = 'http://127.0.1:8000/proxy'
-    js_rewrite_url = 'http://127.0.0.1/~birkin/dev/iip/iip_wordlists_stuff/iip-word-lists/docs/doubletreejs/'
+    fetch_url = settings_app.FETCH_DIR_URL  # includes trailing slash
+    proxy_url = reverse( 'proxy_url' )  # includes trailing slash
+    js_rewrite_url = '%s%s' % ( fetch_url, 'doubletreejs/' )
     if slug:
         fetch_url = '%s%s' % ( fetch_url, slug )
     if gets:
@@ -48,11 +46,10 @@ def proxy( request, slug=None ):
     log.debug( 'r.url, ```%s```' % r.url )
     raw = r.content.decode( 'utf-8' )
     log.debug( 'raw, ```%s```' % raw )
-    # rewritten = raw.replace( 'href="../', 'href="%s/' % rewrite_url )
     rewritten = raw.replace(
-        'href="../', 'href="%s/' % rewrite_url ).replace(
+        'href="../', 'href="%s' % proxy_url ).replace(
         '<script src="doubletreejs/', '<script src="%s' % js_rewrite_url ).replace(
-        'textRequest.open("GET", "doubletree-data.txt"', 'textRequest.open("GET", "%s/doubletree-data.txt"' % rewrite_url
+        'textRequest.open("GET", "doubletree-data.txt"', 'textRequest.open("GET", "%sdoubletree-data.txt"' % proxy_url
         )
     log.debug( 'rewritten, ```%s```' % rewritten )
     if request.META['PATH_INFO'][-5:] == '.xml/':
