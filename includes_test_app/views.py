@@ -34,7 +34,9 @@ def proxy( request, slug=None ):
     log.debug( 'request.__dict__, ```%s```' % pprint.pformat(request.__dict__) )
     gets = request.GET
     log.debug( 'gets, `%s`' % gets )
-    fetch_url = 'http://127.0.0.1/~birkin/dev/iip/iip_wordlists_stuff/iip-word-lists/docs/'
+    # fetch_url = 'http://127.0.0.1/~birkin/dev/iip/iip_wordlists_stuff/iip-word-lists/docs/'
+    fetch_url = settings_app.FETCH_DIR_URL
+    log.debug( 'reversed proxy-url, `%s`' % reverse('proxy_url') )
     rewrite_url = 'http://127.0.1:8000/proxy'
     js_rewrite_url = 'http://127.0.0.1/~birkin/dev/iip/iip_wordlists_stuff/iip-word-lists/docs/doubletreejs/'
     if slug:
