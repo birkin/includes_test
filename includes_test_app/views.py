@@ -60,7 +60,7 @@ def proxy( request, slug=None ):
 
 def proxy_doubletree( request ):
     log.debug( 'starting' )
-    url = 'http://127.0.0.1/~birkin/dev/iip/iip_wordlists_stuff/iip-word-lists/docs/doubletree-data.txt'
+    url = '%s%s' % ( settings_app.FETCH_DIR_URL, 'doubletree-data.txt' )
     r = requests.get( url )
     return HttpResponse( r.content )
 
