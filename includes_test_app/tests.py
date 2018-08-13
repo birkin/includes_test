@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 import logging
-from django.test import TestCase
-# from django.test import SimpleTestCase as TestCase    ## TestCase requires db, so if you're not using a db, and want tests, try this
+# from django.test import TestCase
+from django.test import SimpleTestCase as TestCase    ## TestCase requires db, so if you're not using a db, and want tests, try this
 
 
 log = logging.getLogger(__name__)

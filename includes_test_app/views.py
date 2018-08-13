@@ -4,6 +4,7 @@ import datetime, json, logging, os, pprint
 import urllib.parse
 import requests
 from . import settings_app
+from .lib import view_info_helper
 from django.conf import settings as project_settings
 from django.contrib.auth import logout
 from django.core.urlresolvers import reverse
@@ -14,20 +15,26 @@ log = logging.getLogger(__name__)
 
 
 def info( request ):
-    """ Returns basic info.
-        Getting this running shows that logging is working, and that the settings_app file is properly reading env-vars. """
-    # log.debug( 'request.__dict__, ```%s```' % pprint.pformat(request.__dict__) )
-    start = datetime.datetime.now()
-    log.info( 'start, `%s`' % str(start) )
-    rtrn_dct = {
-        'query': {
-            'date_time': str( start ),
-            'url': '{schm}://{hst}{uri}'.format( schm=request.scheme, hst=request.META['HTTP_HOST'], uri=request.META.get('REQUEST_URI', request.META['PATH_INFO']) ) },  # REQUEST_URI not available via run-server
+    """ Returns basic data. """
+    rq_now = datetime.datetime.now()
+    commit = view_info_helper.get_commit()
+    branch = view_info_helper.get_branch()
+    info_txt = commit.replace( 'commit', branch )
+    resp_now = datetime.datetime.now()
+    taken = resp_now - rq_now
+    d = {
+        'request': {
+            'url': '%s://%s%s' % ( request.scheme, request.META['HTTP_HOST'], request.META.get('REQUEST_URI', request.META['PATH_INFO']) ),
+            'timestamp': str( rq_now )
+        },
         'response': {
             'documentation': settings_app.README_URL,
-            'elapsed_time': str( datetime.datetime.now() - start ),
-            'message': 'ok' } }
-    return HttpResponse( json.dumps(rtrn_dct, sort_keys=True, indent=2), content_type='application/javascript; charset=utf-8' )
+            'version': info_txt,
+            'elapsed_time': str( taken )
+        }
+    }
+    output = json.dumps( d, sort_keys=True, indent=2 )
+    return HttpResponse( output, content_type='application/json; charset=utf-8' )
 
 
 def proxy( request, slug=None ):
@@ -37,6 +44,7 @@ def proxy( request, slug=None ):
     log.debug( 'gets, `%s`' % gets )
     fetch_url = settings_app.FETCH_DIR_URL  # includes trailing slash
     proxy_url = reverse( 'proxy_url' )  # includes trailing slash
+    # log.debug( 'proxy_url, `%s`' % proxy_url )
     js_rewrite_url = '%s%s' % ( fetch_url, 'doubletreejs/' )
     if slug:
         fetch_url = '%s%s' % ( fetch_url, urllib.parse.unquote_plus(slug) )
