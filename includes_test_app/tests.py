@@ -1,12 +1,25 @@
 # -*- coding: utf-8 -*-
 
 import logging
-# from django.test import TestCase
-from django.test import SimpleTestCase as TestCase    ## TestCase requires db, so if you're not using a db, and want tests, try this
-
+from django.conf import settings
+from django.test import SimpleTestCase as TestCase  # TestCase requires db, so if you're not using a db, and want tests, try this
+from includes_test_app.lib import html_processor
 
 log = logging.getLogger(__name__)
 TestCase.maxDiff = None
+
+
+class ProcessorTest( TestCase ):
+    """ Checks code massaging proxied html. """
+
+    def test_append_slash_needed(self):
+        """ Checks for presence of appended slash. """
+        with open( '%s/includes_test_app/test_data/index.html' % settings.BASE_DIR, 'rb' ) as f:
+            source = f.read().decode( 'utf-8')
+        processed = processor.append_slashes( source )
+        self.assertTrue( 'href="./_.html"' in processed )
+
+    ## end class ProcessorTest()
 
 
 class RootUrlTest( TestCase ):
@@ -26,4 +39,4 @@ class RootUrlTest( TestCase ):
         redirect_url = response._headers['location'][1]
         self.assertEqual(  '/info/', redirect_url )
 
-    # end class RootUrlTest()
+    ## end class RootUrlTest()
