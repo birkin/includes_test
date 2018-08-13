@@ -16,7 +16,7 @@ class ProcessorTest( TestCase ):
         """ Checks for presence of appended slash. """
         with open( '%s/includes_test_app/test_data/index.html' % settings.BASE_DIR, 'rb' ) as f:
             source = f.read().decode( 'utf-8')
-        processed = processor.append_slashes( source )
+        processed = html_processor.append_slashes( source )
         self.assertTrue( 'href="./_.html"' in processed )
 
     ## end class ProcessorTest()
