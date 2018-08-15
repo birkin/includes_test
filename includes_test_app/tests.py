@@ -17,7 +17,18 @@ class ProcessorTest( TestCase ):
         with open( '%s/includes_test_app/test_data/index.html' % settings.BASE_DIR, 'rb' ) as f:
             source = f.read().decode( 'utf-8')
         processed = html_processor.append_slashes( source )
-        self.assertTrue( 'href="./_.html"' in processed )
+        ## current dir, no end-slash
+        self.assertTrue( 'href="./_.html"' in source )
+        self.assertFalse( 'href="./_.html/"' in source )
+        self.assertTrue( 'href="./_.html/"' in processed )
+        ## proxy url, no end-slash
+        self.assertTrue( 'href="../style.css"' in source )
+        self.assertFalse( 'href="/proxy/style.css/"' in source )
+        self.assertTrue( 'href="/proxy/style.css/"' in processed )
+        ## .js files to proxy
+        # coming
+
+
 
     ## end class ProcessorTest()
 
