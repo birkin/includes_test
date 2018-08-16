@@ -36,7 +36,19 @@ def append_slashes( source_html ):
         if linktext[0:3] == '../' and len(linktext) > 3:
             link['href'] = '%s%s/' % ( reverse('proxy_url'), linktext[3:] )  # reverse('proxy_url') includes trailing slash
         log.debug( 'linktext finally, `%s`' % link['href'] )
+    ##
+    script_elements = soup.find_all( 'script' )
+    for script_element in script_elements:
+        log.debug( 'script_element, `%s`' % script_element )
+        # src_linktext = script_element['src']
+        src_linktext = script_element.get( 'src', '' )
+        if src_linktext[0:3] == '../' and len(src_linktext) > 3:
+            log.debug( 'here' )
+            script_element['src'] = '%s%s/' % ( reverse('proxy_url'), src_linktext[3:] )  # reverse('proxy_url') includes trailing slash
+            log.debug( 'src_linktext finally, `%s`' % script_element['src'] )
+        # add here a search for './' if necessary
+    ##
     changed = soup
     output = str( changed )
-    # log.debug( 'output, ```%s```' % output )
+    log.debug( 'output, ```%s```' % output )
     return output

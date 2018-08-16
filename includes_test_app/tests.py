@@ -26,9 +26,8 @@ class ProcessorTest( TestCase ):
         self.assertFalse( 'href="/proxy/style.css/"' in source )
         self.assertTrue( 'href="/proxy/style.css/"' in processed )
         ## .js files to proxy
-        # coming
-
-
+        self.assertTrue( '<script src="../levenshtein.min.js">' in source )
+        self.assertTrue( '<script src="/proxy/levenshtein.min.js/">' in processed )
 
     ## end class ProcessorTest()
 
